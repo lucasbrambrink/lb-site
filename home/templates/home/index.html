@@ -1,0 +1,19 @@
+{% extends 'base/base.html' %}
+
+{% block container %}
+<main class="home">
+  <header>
+    <h1>Lucas Brambrink</h1>
+    <h3>python developer</h3>
+    <h3>new york city</h3>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="{% url 'resume:index' slug='lucas-brambrink' %}">Resume</a></li>
+      <li><a href="{% url 'home:about' %}">About Me</a></li>
+      <li><a href="{% url 'blog:landing' %}">Blog</a></li>
+    </ul>
+  </nav>
+</main>
+{% endblock %}

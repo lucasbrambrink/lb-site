@@ -1,0 +1,21 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" type="text/css" href="{% static 'resume/css/resume.css' %}" />
+{% endblock stylesheets %}
+
+{% block container %}
+<main class="{% if render_static %}render-static{% endif %}">
+    {% include 'resume/includes/header.html' %}
+    {% include 'resume/includes/career-goal.html' %}
+    {% include 'resume/includes/education.html' %}
+    {% include 'resume/includes/programming.html' %}
+    {% include 'resume/includes/work-experience.html' %}
+</main>
+{% endblock container %}
+
+{% block javascript %}
+{{ block.super }}
+ <script type="application/javascript" src="{% static 'resume/js/resume.js' %}" ></script>
+{% endblock %}}

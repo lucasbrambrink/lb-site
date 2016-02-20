@@ -1,0 +1,257 @@
+@black: #191919;
+@white: #FCFCFC;
+@svg-stroke-width: 0.2px;
+@transition-duration: 300ms;
+@svg-icon-width: 20px;
+@import '../../../common/static/common/css/variables.less';
+
+body {
+  background: @white;
+  color: @black;
+  font-family: Lato-Thin, Lato-ThinItalic, Arial, sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+  display: inline-block;
+}
+h1 {
+  cursor: pointer;
+}
+.work-experience h2, .basic-info h1 {
+  font-weight: 300;
+}
+.basic-info {
+  h1 {
+    cursor: inherit;
+  }
+}
+.row {
+  margin: 0;
+}
+main {
+  padding: 0;
+  @media(min-width: 600px) {
+    padding: 25px 0 50px 0;
+  }
+  min-height: 100vw;
+}
+span.header-svg {
+  position: absolute;
+  top: 35px;
+  right: 15px;
+  width: @svg-icon-width;
+  height: @svg-icon-width;
+  z-index: 1;
+  cursor: pointer;
+  &:hover {
+    circle {
+      stroke: @black;
+    }
+  }
+}
+svg {
+  width: @svg-icon-width;
+  height: @svg-icon-width;
+  line {
+    stroke-width: @svg-stroke-width;
+    stroke: @white;
+    transition: stroke @transition-duration ease-in;
+  }
+  circle {
+    transition: stroke @transition-duration ease-in;
+    fill: none;
+    stroke-width: @svg-stroke-width;
+    stroke: @white;
+  }
+  #minus {
+    display: none;
+  }
+}
+header {
+  box-shadow: 0 1px 0 0 @black;
+  -webkit-box-shadow: 0 1px 0 0 @black;
+  -moz-box-shadow: 0 1px 0 0 @black;
+  transition: box-shadow @transition-duration ease-in;
+}
+section {
+  margin: 0 -15px;
+  position: relative;
+  transition: border-bottom 300ms ease-in;
+  &:hover {
+    header {
+      box-shadow: 0 1.5px 0 0  darken(@black, 30%);
+      -webkit-box-shadow: 0 1.5px 0 0  darken(@black, 30%);
+      -moz-box-shadow: 0 1.5px 0 0  darken(@black, 30%);
+    }
+    line {
+      stroke: @black;
+    }
+    article {
+      transition: font-size @transition-duration ease-in;
+      &:hover {
+        header {
+          box-shadow: 0 1px 0 0 @black;
+          -webkit-box-shadow: 0 1px 0 0 @black;
+          -moz-box-shadow: 0 1px 0 0 @black;
+        }
+        section header {
+          box-shadow: none;
+        }
+      }
+      header, section header {
+        box-shadow: none;
+      }
+    }
+  }
+  &.active {
+    header {
+      box-shadow: none;
+    }
+  }
+}
+article {
+  display: none;
+  margin-top: 15px;
+  header {
+    box-shadow: none;
+  }
+}
+.col-xs-12.text-right {
+  @media(max-width: 600px) {
+    text-align: left;
+  }
+}
+span.secondary {
+  display: block;
+  margin: 0 15px;
+}
+.work-experience {
+  .work-address {
+    font-style: italic;
+    padding: 0 5px;
+  }
+  ul {
+    margin-top: 10px;
+    list-style: none;
+  }
+  li {
+    border-left: 1px solid @black;
+    padding: 0 10px;
+  }
+  header {
+    .row {
+      display: flex;
+      align-items: flex-end;
+    }
+  }
+  section {
+    @media(min-width: 575px) {
+      padding: 0 5vw;
+    }
+    header {
+      @media(max-width: 600px) {
+        padding: 0 10px;
+      }
+    }
+  }
+}
+.education, .programming {
+  p {
+    margin: 0;
+  }
+}
+.programming {
+  [class*='col-xs'] {
+  @media(max-width: 600px) {
+    width: 100%;
+    text-align: left;
+  }
+  &.col-xs-10 {
+    p {
+      padding: 0 10px;
+    }
+  }
+}
+}
+.education {
+  p:first-child {
+    margin-top: 10px;
+  }
+}
+
+.basic-info {
+  p {
+    margin: 0;
+  }
+  @media(max-width: 600px) {
+    .row {
+      padding: 10px 0;
+    }
+  }
+}
+.render-static {
+  color: black;
+  background: white;
+  padding: 0;
+  article {
+    display: block;
+    margin-top: 5px;
+    &:first-child {
+      margin: 0;
+    }
+  }
+  header {
+    box-shadow: none !important;
+  }
+  section header {
+    border-bottom: 1px solid black;
+  }
+  article header {
+    border: none;
+  }
+  span.header-svg {
+    display: none;
+  }
+  h1 {
+    font-size: 17px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  h2 {
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  h4 {
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  p, span {
+    font-size: 10px;
+    margin: 0 0 5px;
+  }
+  li {
+    font-size: 10px;
+  }
+  .basic-info, .programming {
+    p {
+      margin: 0;
+    }
+  }
+  .programming {
+    .row {
+      display: flex;
+      align-items: center;
+    }
+  }
+  ul {
+    margin: 0;
+  }
+  .education {
+    p {
+      margin: 0;
+    }
+  }
+  .work-experience {
+    margin-top: 10px;
+  }
+}

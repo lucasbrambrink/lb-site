@@ -1,0 +1,26 @@
+<section class="programming">
+    {% include 'svg/header-svg.html' %}
+    <header class="row">
+        <div class="col-xs-12">
+            <h1>Programming</h1>
+        </div>
+    </header>
+
+    {% for skill in resume.programming %}
+    <article>
+        <div class="row">
+            <div class="col-xs-2 text-right">
+                <p>
+                    <strong>{{ skill.title }}</strong>
+                </p>
+            </div>
+            <div class="col-xs-10">
+                {% for line in skill.lines.all %}
+                    <p>{{ line.text }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+
+</section>

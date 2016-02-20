@@ -60,3 +60,7 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+.idea/
+venv/
+.DS_Store
+local_settings

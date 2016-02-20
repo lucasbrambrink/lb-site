@@ -1,0 +1,41 @@
+<section class="work-experience">
+    {% include 'svg/header-svg.html' %}
+  <header class="row">
+    <div class="col-xs-12">
+      <h1>Work Experience</h1>
+    </div>
+  </header>
+
+  {% for work in resume.experience %}
+  <article>
+    <header>
+      <div class="row">
+        <div class="col-xs-8">
+          <h2>{{ work.title }}</h2>
+          <h4 class="work-address">{{ work.address }}</h4>
+        </div>
+        <div class="col-xs-4 text-right">
+          <p>{{ work.dates }}</p>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <header>
+        <div class="row">
+          <div class="col-xs-12">
+            <h4>{{ work.role }}: {{ work.skills }}</h4>
+          </div>
+        </div>
+      </header>
+      <footer>
+        <ul>
+          {% for bullet in work.bullets.all %}
+           <li>{{ bullet }}</li>
+          {% endfor %}
+        </ul>
+      </footer>
+    </section>
+  </article>
+  {% endfor %}
+</section>

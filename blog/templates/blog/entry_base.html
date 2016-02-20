@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+
+{% block container %}
+<main class="blog">
+  <header>
+    <img src="{{ post.masthead_image.url }}" alt="{{ post.title }}">
+    <h1>{{ post.title }}</h1>
+  </header>
+
+  <article>
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+        {% if post.template_path %}
+          {% include post.template_path %}
+        {% else %}
+          {{ post.content }}
+        {% endif %}
+      </div>
+    </div>
+  </article>
+</main>
+{% endblock %}
