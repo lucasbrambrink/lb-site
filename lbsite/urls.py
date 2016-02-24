@@ -8,6 +8,6 @@ urlpatterns = patterns('',
     url(r'^resume/', include('resume.urls', namespace='resume')),
     url(r'^blog/', include('blog.urls', namespace='blog')),
     url(r'^', include('home.urls', namespace='home')),
-    url('^$', RedirectView.as_view(url=reverse_lazy('resume:index',
-                                                    kwargs={'slug': 'lucas-brambrink'})))
+    url(r'^$', RedirectView.as_view(url=reverse_lazy('resume:index',
+                                                     kwargs={'slug': 'lucas-brambrink'})))
 )

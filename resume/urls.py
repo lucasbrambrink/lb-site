@@ -5,7 +5,7 @@ from .models import Resume
 urlpatterns = patterns(
     '',
     url(r'^(?P<slug>[a-z-]+)/',
-        view=ResumeView.as_view(template_name='resume/resume.html',
-                                model=Resume),
+        ResumeView.as_view(template_name='resume/resume.html',
+                           model=Resume),
         name='index'),
 )
