@@ -31,3 +31,19 @@ class PdfKit(object):
         full_url = '{}{}'.format(settings.BASE_URL, url)
         print full_url
         pdfkit.from_url(full_url, path, options=options)
+
+
+def truncate_chars(string, limit):
+    if len(string) <= limit:
+        return string
+
+    words = []
+    count = 0
+    for word in string.split():
+        count += len(word) + 1
+        if count < limit:
+            words.append(word)
+    words.append(u'...')
+
+    return u' '.join(words)
+

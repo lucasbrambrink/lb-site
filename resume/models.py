@@ -1,4 +1,14 @@
 from django.db import models
+from sortedm2m.fields import SortedManyToManyField
+from common.utils import truncate_chars
+
+
+class SortingValueMixin(models.Model):
+    sorting_value = models.IntegerField(default=1)
+
+    class Meta:
+        abstract = True
+        ordering = ['sorting_value']
 
 
 class ContactInfo(models.Model):
@@ -11,7 +21,7 @@ class ContactInfo(models.Model):
         return self.email
 
 
-class Education(models.Model):
+class Education(SortingValueMixin):
     title = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     completion_date = models.CharField(max_length=255)
@@ -22,21 +32,21 @@ class Education(models.Model):
         return self.title
 
 
-class Line(models.Model):
+class Line(SortingValueMixin):
     text = models.TextField()
 
     def __unicode__(self):
-        return self.text
+        return truncate_chars(self.text, 30)
 
 
 class CareerGoal(models.Model):
     goal = models.TextField()
 
     def __unicode__(self):
-        return self.goal
+        return truncate_chars(self.goal, 30)
 
 
-class ProgrammingSkills(models.Model):
+class ProgrammingSkills(SortingValueMixin):
     title = models.CharField(max_length=255)
     lines = models.ManyToManyField(to='Line')
     resume = models.ForeignKey('Resume')
@@ -45,13 +55,13 @@ class ProgrammingSkills(models.Model):
         return self.title
 
 
-class WorkExperience(models.Model):
+class WorkExperience(SortingValueMixin):
     title = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     dates = models.CharField(max_length=255)
     role = models.CharField(max_length=255)
     skills = models.TextField()
-    bullets = models.ManyToManyField(to='Line')
+    bullets = SortedManyToManyField(to='Line')
     resume = models.ForeignKey('Resume')
 
     def __unicode__(self):
