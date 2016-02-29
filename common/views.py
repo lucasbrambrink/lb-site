@@ -14,18 +14,20 @@ class GenericModelView(TemplateView):
             raise NotImplementedError('Model class is not declared')
 
         cls.model_kwarg = model_kwarg or cls.model._meta.model_name
-        super(GenericModelView, cls).as_view(**initkwargs)
+        return super(GenericModelView, cls).as_view(**initkwargs)
 
-    def get_context_data(self, request=None, **kwargs):
-        return {}
+    def get_context_data(self, request=None, slug=None, **kwargs):
+        return {
+            self.model_kwarg: self.get_model(slug)
+        }
+
+    def get_model(self, slug=None):
+        try:
+            return self.model.objects.get(slug=slug)
+        except self.model.DoesNotExist:
+            return None
 
     def get(self, request, slug=None, *args, **kwargs):
-        context = self.get_context_data(request, **kwargs)
-
-        try:
-            context[self.model_kwarg] = self.model.objects.get(slug=slug)
-        except self.model.DoesNotExist:
-            return HttpResponse('Unable to resolve database model based on provided URL')
-
+        context = self.get_context_data(request, slug, **kwargs)
         return render(request, self.template_name, context)
 

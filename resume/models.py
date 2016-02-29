@@ -1,6 +1,8 @@
 from django.db import models
+from django.db.models import Q
 from sortedm2m.fields import SortedManyToManyField
 from common.utils import truncate_chars
+from collections import defaultdict
 
 
 class SortingValueMixin(models.Model):
@@ -9,6 +11,16 @@ class SortingValueMixin(models.Model):
     class Meta:
         abstract = True
         ordering = ['sorting_value']
+
+
+class ResumeCategory(models.Model):
+    """
+    e.g finance, frontend, backend, business, design
+    """
+    category = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.category
 
 
 class ContactInfo(models.Model):
@@ -27,6 +39,8 @@ class Education(SortingValueMixin):
     completion_date = models.CharField(max_length=255)
     description = models.TextField()
     resume = models.ForeignKey('Resume')
+    categories = models.ManyToManyField('ResumeCategory',
+                                        blank=True)
 
     def __unicode__(self):
         return self.title
@@ -39,8 +53,11 @@ class Line(SortingValueMixin):
         return truncate_chars(self.text, 30)
 
 
-class CareerGoal(models.Model):
+class CareerGoal(SortingValueMixin):
     goal = models.TextField()
+    resume = models.ForeignKey(to='Resume', null=True)
+    categories = models.ManyToManyField('ResumeCategory',
+                                        blank=True)
 
     def __unicode__(self):
         return truncate_chars(self.goal, 30)
@@ -50,6 +67,8 @@ class ProgrammingSkills(SortingValueMixin):
     title = models.CharField(max_length=255)
     lines = models.ManyToManyField(to='Line')
     resume = models.ForeignKey('Resume')
+    categories = models.ManyToManyField('ResumeCategory',
+                                        blank=True)
 
     def __unicode__(self):
         return self.title
@@ -61,8 +80,10 @@ class WorkExperience(SortingValueMixin):
     dates = models.CharField(max_length=255)
     role = models.CharField(max_length=255)
     skills = models.TextField()
-    bullets = SortedManyToManyField(to='Line')
+    bullets = models.ManyToManyField(to='Line')
     resume = models.ForeignKey('Resume')
+    categories = models.ManyToManyField('ResumeCategory',
+                                        blank=True)
 
     def __unicode__(self):
         return self.title
@@ -71,20 +92,33 @@ class WorkExperience(SortingValueMixin):
 class Resume(models.Model):
     name = models.CharField(max_length=255)
     contact = models.ForeignKey(to='ContactInfo', null=True)
-    career_goal = models.ForeignKey(to='CareerGoal', null=True)
     slug = models.SlugField(default='')
+    categories = models.ManyToManyField('ResumeCategory', blank=True)
 
-    @property
-    def education(self):
-        return self.education_set.order_by('pk').values()
+    def by_categories(self, qs=None):
+        return qs.filter(
+            Q(categories__category=self.instance_category) |
+            Q(categories__isnull=True) |
+            Q(categories__category=u'always_show')
+        ).order_by(u'sorting_value')
 
-    @property
-    def programming(self):
-        return self.programmingskills_set.order_by('pk')
+    def __init__(self, *args, **kwargs):
+        super(Resume, self).__init__(*args, **kwargs)
+        self.set_instance_category()
 
-    @property
-    def experience(self):
-        return self.workexperience_set.order_by('pk')
+    def set_instance_category(self, category_kwarg=None):
+        self.instance_category = None
+        try:
+            self.instance_category = ResumeCategory.objects\
+                .get(category=category_kwarg or u'general')
+        except ResumeCategory.DoesNotExist:
+            pass
+
+        for attr, qs in ((u'education', self.education_set),
+                         (u'career_goal', self.careergoal_set),
+                         (u'programming', self.programmingskills_set),
+                         (u'experience', self.workexperience_set)):
+            setattr(self, attr, self.by_categories(qs.all()))
 
     def __unicode__(self):
         return self.name

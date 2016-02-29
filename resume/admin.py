@@ -6,18 +6,19 @@ from .models import (
     Education,
     WorkExperience,
     ProgrammingSkills,
-    Line
+    Line,
+    ResumeCategory
 )
 from django.core.urlresolvers import reverse_lazy
 from django.utils.text import mark_safe
-from common.utils import PdfKit
+from common.utils import PdfKit, truncate_chars
 
 
 class ResumeAdmin(admin.ModelAdmin):
     model = Resume
     actions = ('render_as_pdf',)
     prepopulated_fields = {'slug': ('name',), }
-    list_display = ('name', 'view')
+    list_display = ('name', 'all_categories', 'view')
 
     def render_as_pdf(self, request, queryset):
         for obj in queryset:
@@ -30,11 +31,31 @@ class ResumeAdmin(admin.ModelAdmin):
             '<a href={}>view</a>'.format(reverse_lazy('resume:index', kwargs={'slug': obj.slug}))
         )
 
+    def all_categories(self, obj):
+        return ', '.join(obj.categories
+                         .values_list('category',
+                                      flat=True))
+
+
+class CategoryAdminMixin(admin.ModelAdmin):
+    list_display = ('text', 'all_categories',)
+
+    def text(self, obj):
+        return truncate_chars(obj.__unicode__(), 100)
+
+    def all_categories(self, obj):
+        return ', '.join(obj.categories
+                         .values_list('category',
+                                      flat=True))
+
+
+
 
 admin.site.register(Resume, ResumeAdmin)
-admin.site.register(CareerGoal)
-admin.site.register(Education)
-admin.site.register(WorkExperience)
+admin.site.register(CareerGoal, CategoryAdminMixin)
+admin.site.register(Education, CategoryAdminMixin)
+admin.site.register(WorkExperience, CategoryAdminMixin)
 admin.site.register(ContactInfo)
-admin.site.register(ProgrammingSkills)
+admin.site.register(ProgrammingSkills, CategoryAdminMixin)
 admin.site.register(Line)
+admin.site.register(ResumeCategory)
