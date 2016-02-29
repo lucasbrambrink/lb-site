@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import sortedm2m.fields
 
 
 class Migration(migrations.Migration):
@@ -48,10 +47,5 @@ class Migration(migrations.Migration):
             model_name='workexperience',
             name='sorting_value',
             field=models.IntegerField(default=1),
-        ),
-        migrations.AlterField(
-            model_name='workexperience',
-            name='bullets',
-            field=sortedm2m.fields.SortedManyToManyField(help_text=None, to='resume.Line'),
         ),
     ]
