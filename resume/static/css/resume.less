@@ -38,8 +38,9 @@ main {
 }
 span.header-svg {
   position: absolute;
-  top: 25px;
+  top: 50%;
   right: 15px;
+  transform: translate(0, -50%);
   width: @svg-icon-width;
   height: @svg-icon-width;
   z-index: 1;
@@ -187,6 +188,9 @@ span.secondary {
   @media(max-width: 600px) {
     .row {
       padding: 10px 0;
+      &:first-child {
+        padding: 0;
+      }
     }
   }
 }

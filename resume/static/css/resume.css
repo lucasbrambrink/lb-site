@@ -67,8 +67,9 @@ main {
 }
 span.header-svg {
   position: absolute;
-  top: 25px;
+  top: 50%;
   right: 15px;
+  transform: translate(0, -50%);
   width: 20px;
   height: 20px;
   z-index: 1;
@@ -196,6 +197,9 @@ span.secondary {
 @media (max-width: 600px) {
   .basic-info .row {
     padding: 10px 0;
+  }
+  .basic-info .row:first-child {
+    padding: 0;
   }
 }
 .render-static {
