@@ -2,7 +2,6 @@ django==1.9.2
 psycopg2==2.6
 django-extensions==1.6.1
 pdfkit==0.5.0
-django-sortedm2m==1.1.1
 requests==2.5.0
 dj-database-url==0.3.0
 dj-static==0.0.6

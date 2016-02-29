@@ -1,8 +1,6 @@
 from django.db import models
 from django.db.models import Q
-from sortedm2m.fields import SortedManyToManyField
 from common.utils import truncate_chars
-from collections import defaultdict
 
 
 class SortingValueMixin(models.Model):
