@@ -43,6 +43,9 @@ h6 {
 }
 h1 {
   cursor: pointer;
+}
+h1,
+h2 {
   margin-top: 15px;
   margin-bottom: 15px;
 }
@@ -67,7 +70,7 @@ main {
 }
 span.header-svg {
   position: absolute;
-  top: 50%;
+  top: 34.5px;
   right: 15px;
   transform: translate(0, -50%);
   width: 20px;
@@ -188,8 +191,14 @@ span.secondary {
 .programming [class*='col-xs'].col-xs-10 p {
   padding: 0 10px;
 }
+.programming article:last-child {
+  margin-bottom: 15px;
+}
 .education p:first-child {
   margin-top: 10px;
+}
+.education article:last-child {
+  margin-bottom: 15px;
 }
 .basic-info p {
   margin: 0;

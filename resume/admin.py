@@ -49,13 +49,20 @@ class CategoryAdminMixin(admin.ModelAdmin):
                                       flat=True))
 
 
+class SortingValueAdminMixin(admin.ModelAdmin):
+    list_editable = ('sorting_value',)
+
+
+class ResumeModelMixin(CategoryAdminMixin,
+                       SortingValueAdminMixin):
+    list_display = ('text', 'all_categories', 'sorting_value',)
 
 
 admin.site.register(Resume, ResumeAdmin)
-admin.site.register(CareerGoal, CategoryAdminMixin)
-admin.site.register(Education, CategoryAdminMixin)
-admin.site.register(WorkExperience, CategoryAdminMixin)
+admin.site.register(CareerGoal, ResumeModelMixin)
+admin.site.register(Education, ResumeModelMixin)
+admin.site.register(WorkExperience, ResumeModelMixin)
 admin.site.register(ContactInfo)
-admin.site.register(ProgrammingSkills, CategoryAdminMixin)
+admin.site.register(ProgrammingSkills, ResumeModelMixin)
 admin.site.register(Line)
 admin.site.register(ResumeCategory)

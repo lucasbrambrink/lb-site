@@ -105,7 +105,7 @@ class Resume(models.Model):
         self.set_instance_category()
 
     def set_instance_category(self, category_kwarg=None):
-        self.instance_category = None
+        self.instance_category = self.categories.first()
         try:
             self.instance_category = ResumeCategory.objects\
                 .get(category=category_kwarg or u'general')

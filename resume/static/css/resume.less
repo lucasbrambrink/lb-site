@@ -15,6 +15,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 h1 {
   cursor: pointer;
+}
+h1, h2 {
   margin-top: 15px;
   margin-bottom: 15px;
 }
@@ -38,7 +40,7 @@ main {
 }
 span.header-svg {
   position: absolute;
-  top: 50%;
+  top: 34.5px;
   right: 15px;
   transform: translate(0, -50%);
   width: @svg-icon-width;
@@ -164,20 +166,27 @@ span.secondary {
 }
 .programming {
   [class*='col-xs'] {
-  @media(max-width: 600px) {
-    width: 100%;
-    text-align: left;
-  }
-  &.col-xs-10 {
-    p {
-      padding: 0 10px;
+    @media (max-width: 600px) {
+      width: 100%;
+      text-align: left;
+    }
+
+    &.col-xs-10 {
+      p {
+        padding: 0 10px;
+      }
     }
   }
-}
+  article:last-child {
+    margin-bottom: 15px;
+  }
 }
 .education {
   p:first-child {
     margin-top: 10px;
+  }
+  article:last-child {
+    margin-bottom: 15px;
   }
 }
 
