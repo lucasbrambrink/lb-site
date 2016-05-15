@@ -102,7 +102,8 @@ class Resume(models.Model):
 
     def __init__(self, *args, **kwargs):
         super(Resume, self).__init__(*args, **kwargs)
-        self.set_instance_category()
+        if self.id is not None:
+            self.set_instance_category()
 
     def set_instance_category(self, category_kwarg=None):
         self.instance_category = self.categories.first()
