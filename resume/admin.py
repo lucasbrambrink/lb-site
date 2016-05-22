@@ -7,7 +7,9 @@ from .models import (
     WorkExperience,
     ProgrammingSkills,
     Line,
-    ResumeCategory
+    ResumeCategory,
+    GenericListSection,
+    GenericListItem,
 )
 from django.core.urlresolvers import reverse_lazy
 from django.utils.text import mark_safe
@@ -66,3 +68,5 @@ admin.site.register(ContactInfo)
 admin.site.register(ProgrammingSkills, ResumeModelMixin)
 admin.site.register(Line)
 admin.site.register(ResumeCategory)
+admin.site.register(GenericListItem, ResumeModelMixin)
+admin.site.register(GenericListSection, ResumeModelMixin)

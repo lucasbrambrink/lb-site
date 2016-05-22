@@ -124,3 +124,8 @@ LUCAS_BRAMBRINK = {
 }
 
 
+FONTS = (
+    ('Lato-Thin, Lato-ThinItalic, Arial, sans-serif;', 'Lato-Thin'),
+    ('Helvetica, Arial, sans-serif;', 'Helvetica'),
+    ('Georgia, Arial, sans-serif', 'Georgia')
+)

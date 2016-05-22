@@ -6,12 +6,13 @@
 {% endblock stylesheets %}
 
 {% block container %}
-<main class="{% if render_static %}render-static{% endif %}">
-    {% include 'resume/includes/header.html' %}
-    {% include 'resume/includes/career-goal.html' %}
-    {% include 'resume/includes/education.html' %}
-    {% include 'resume/includes/programming.html' %}
-    {% include 'resume/includes/work-experience.html' %}
+<main class="{% if render_static %}render-static{% endif %}"
+    {% if resume.font %}style="font-family: {{ resume.font }}"{% endif %}>
+
+    {% for section in resume.get_all_templates %}
+      {% include section %}
+    {% endfor %}
+
 </main>
 {% endblock container %}
 
