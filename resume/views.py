@@ -1,6 +1,7 @@
 from .models import Resume, ResumeCategory
 from common.views import GenericModelView
-
+from django.views.generic import TemplateView
+from django.shortcuts import render
 
 class ResumeView(GenericModelView):
 
@@ -23,3 +24,10 @@ class ResumeView(GenericModelView):
         context[self.model_kwarg] = model
         return context
 
+
+class CreatorView(TemplateView):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {
+            'obj': Resume()
+        })

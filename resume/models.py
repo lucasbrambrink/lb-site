@@ -24,6 +24,13 @@ class ResumeCategory(models.Model):
         return self.category
 
 
+class Line(SortingValueMixin):
+    text = models.TextField()
+
+    def __unicode__(self):
+        return truncate_chars(self.text, 30)
+
+
 class ContactInfo(models.Model):
     street = models.CharField(max_length=255)
     city_state = models.CharField(max_length=255)
@@ -33,33 +40,39 @@ class ContactInfo(models.Model):
     def __unicode__(self):
         return self.email
 
+CONTACT = 'contact-info'
+EDUCATION = 'education'
+EXPERIENCE = 'experience'
+PLAIN_TEXT = 'plain-text'
+TWO_COLUMN = 'two-column'
+BLOCK_CHOICES = (
+    (EDUCATION, "Education Block"),
+    (PLAIN_TEXT, "Plain Text Block"),
+    (TWO_COLUMN, "Two-column layout block"),
+    (EXPERIENCE, "Experience block")
+)
 
-class Section(models.Model):
+FIELD_SETS = {
+    CONTACT: ('street', 'city_state', 'email', 'phone'),
+    EDUCATION: ('title', 'location', 'completion_date', 'description'),
+    PLAIN_TEXT: ('title', 'description'),
+    TWO_COLUMN: ('title', 'lines'),
+    EXPERIENCE: ('title', 'location', 'dates', 'role', 'lines', 'skills')
+}
+
+
+class Block(SortingValueMixin):
+    type = models.CharField(max_length=255, choices=BLOCK_CHOICES)
     resume = models.ForeignKey(to='Resume', null=True)
-    _section_title = models.CharField(max_length=255,
-                                      blank=True, null=True,
-                                      help_text=u"Displays at top of section")
+    section_title = models.CharField(max_length=255,
+                                     help_text=u"Displays at top of section")
     categories = models.ManyToManyField('ResumeCategory',
                                         blank=True)
 
-    class Meta:
-        abstract = True
-
     @property
-    def name_pretty(self):
-        """
-        insert spaces in classname as separated by pascal case
-        """
-        pieces = []
-        name = self.__class__.__name__
-        while len(name):
-            for index, char in enumerate(name):
-                if char.isupper() and index > 0:
-                    pieces.append(name[:index])
-                    name = name[index:]
-                    break
-
-        return u' '.join(pieces)
+    def field_set(self):
+        return FIELD_SETS.get(self.type,
+                              FIELD_SETS[PLAIN_TEXT])
 
     @property
     def section_title(self):
@@ -67,70 +80,85 @@ class Section(models.Model):
             else self.name_pretty
 
 
-class Education(Section,
-                SortingValueMixin):
-    title = models.CharField(max_length=255)
-    location = models.CharField(max_length=255)
-    completion_date = models.CharField(max_length=255)
-    description = models.TextField()
-
-    def __unicode__(self):
-        return self.title
-
-
-class Line(SortingValueMixin):
-    text = models.TextField()
-
-    def __unicode__(self):
-        return truncate_chars(self.text, 30)
-
-
-class CareerGoal(Section,
-                 SortingValueMixin):
-    goal = models.TextField()
-
-    def __unicode__(self):
-        return truncate_chars(self.goal, 30)
-
-
-class ProgrammingSkills(Section,
-                        SortingValueMixin):
-    title = models.CharField(max_length=255)
-    lines = models.ManyToManyField(to='Line')
-
-    def __unicode__(self):
-        return self.title
-
-
-class WorkExperience(Section,
-                     SortingValueMixin):
-    title = models.CharField(max_length=255)
-    address = models.CharField(max_length=255)
-    dates = models.CharField(max_length=255)
-    role = models.CharField(max_length=255)
-    skills = models.TextField()
-    bullets = models.ManyToManyField(to='Line')
-
-    def __unicode__(self):
-        return self.title
-
-
-class GenericListSection(Section,
-                         SortingValueMixin):
-
-    def __unicode__(self):
-        return self.section_title
-
-
-class GenericListItem(SortingValueMixin):
-    section = models.ForeignKey('GenericListSection')
-    title = models.CharField(max_length=255)
-    lines = models.ManyToManyField(to='Line')
+class BlockItem(SortingValueMixin):
+    title = models.CharField(max_length=255, blank=True)
+    location = models.CharField(max_length=255, blank=True)
+    completion_date = models.CharField(max_length=255, blank=True)
+    dates = models.CharField(max_length=255, blank=True)
+    role = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True)
+    skills = models.TextField(blank=True)
+    lines = models.ManyToManyField(to='Line', blank=True)
+    block = models.ForeignKey(to='Block')
     categories = models.ManyToManyField('ResumeCategory',
                                         blank=True)
 
-    def __unicode__(self):
-        return self.title
+#
+# class Education(SortingValueMixin):
+#     title = models.CharField(max_length=255)
+#     location = models.CharField(max_length=255)
+#     completion_date = models.CharField(max_length=255)
+#     description = models.TextField()
+#
+#     def __unicode__(self):
+#         return self.title
+#
+#
+# class EducationItem(SortingValueMixin):
+#     title = models.CharField(max_length=255)
+#     location = models.CharField(max_length=255)
+#     completion_date = models.CharField(max_length=255)
+#     description = models.TextField()
+#
+#     def __unicode__(self):
+#         return self.title
+#
+#
+# class CareerGoal(SortingValueMixin):
+#     goal = models.TextField()
+#
+#     def __unicode__(self):
+#         return truncate_chars(self.goal, 30)
+#
+#
+# class ProgrammingSkills(Section,
+#                         SortingValueMixin):
+#     title = models.CharField(max_length=255)
+#     lines = models.ManyToManyField(to='Line')
+#
+#     def __unicode__(self):
+#         return self.title
+#
+#
+# class WorkExperience(Section,
+#                      SortingValueMixin):
+#     title = models.CharField(max_length=255)
+#     address = models.CharField(max_length=255)
+#     dates = models.CharField(max_length=255)
+#     role = models.CharField(max_length=255)
+#     skills = models.TextField()
+#     bullets = models.ManyToManyField(to='Line')
+#
+#     def __unicode__(self):
+#         return self.title
+#
+#
+# class GenericListSection(Section,
+#                          SortingValueMixin):
+#
+#     def __unicode__(self):
+#         return self.section_title
+#
+#
+# class GenericListItem(SortingValueMixin):
+#     section = models.ForeignKey('GenericListSection')
+#     title = models.CharField(max_length=255)
+#     lines = models.ManyToManyField(to='Line')
+#     categories = models.ManyToManyField('ResumeCategory',
+#                                         blank=True)
+#
+#     def __unicode__(self):
+#         return self.title
 
 
 SECTIONS = (
@@ -149,11 +177,11 @@ def get_sections():
 
 class Resume(models.Model):
     name = models.CharField(max_length=255)
-    contact = models.ForeignKey(to='ContactInfo', null=True)
     slug = models.SlugField(default='')
-    categories = models.ManyToManyField('ResumeCategory', blank=True)
     font = models.CharField(max_length=255, choices=FONTS, default=FONTS[0][0])
-    section_order = models.TextField(default=get_sections)
+    # categories = models.ManyToManyField('ResumeCategory', blank=True)
+    contact = models.ForeignKey(to='ContactInfo', null=True)
+    # section_order = models.TextField(default=get_sections)
 
     def by_categories(self, qs=None):
         return qs.filter(
@@ -162,25 +190,27 @@ class Resume(models.Model):
             Q(categories__category=u'always_show')
         ).order_by(u'sorting_value')
 
-    def __init__(self, *args, **kwargs):
-        super(Resume, self).__init__(*args, **kwargs)
-        if self.id is not None:
-            self.set_instance_category()
 
-    def set_instance_category(self, category_kwarg=None):
-        self.instance_category = self.categories.first()
-        try:
-            self.instance_category = ResumeCategory.objects\
-                .get(category=category_kwarg or u'general')
-        except ResumeCategory.DoesNotExist:
-            pass
+    # def
+    # def __init__(self, *args, **kwargs):
+        # super(Resume, self).__init__(*args, **kwargs)
+        # if self.id is not None:
+        #     self.set_instance_category()
 
-        for attr, qs in ((u'education', self.education_set),
-                         (u'career_goal', self.careergoal_set),
-                         (u'programming', self.programmingskills_set),
-                         (u'generic_list_sections', self.genericlistsection_set),
-                         (u'experience', self.workexperience_set)):
-            setattr(self, attr, self.by_categories(qs.all()))
+    # def set_instance_category(self, category_kwarg=None):
+    #     self.instance_category = self.categories.first()
+    #     try:
+    #         self.instance_category = ResumeCategory.objects\
+    #             .get(category=category_kwarg or u'general')
+    #     except ResumeCategory.DoesNotExist:
+    #         pass
+    #
+    #     for attr, qs in ((u'education', self.education_set),
+    #                      (u'career_goal', self.careergoal_set),
+    #                      (u'programming', self.programmingskills_set),
+    #                      (u'generic_list_sections', self.genericlistsection_set),
+    #                      (u'experience', self.workexperience_set)):
+    #         setattr(self, attr, self.by_categories(qs.all()))
 
     def __unicode__(self):
         return self.name
@@ -189,24 +219,36 @@ class Resume(models.Model):
     def contact_info(self):
         return self.contact
 
+    @staticmethod
+    def all_fieldsets():
+        for field in FIELD_SETS:
+            yield u'resume/forms/{}.html'.format(field)
+
     @property
-    def get_all_templates(self):
-        for section in SECTIONS:
-            if not hasattr(self, section):
-                continue
-
-            attr = getattr(self, section)
-
-            if issubclass(QuerySet, attr.__class__):
-                include = attr.count() > 0
-            else:
-                include = attr is not None
-
-            if not include:
-                continue
-
-            yield u'resume/includes/{}.html'.format(
-                slugify(section.replace(u'_', u'-')))
+    def get_all_blocks(self):
+        for block in self.by_categories(
+                self.block_set.all()):
+            yield {
+                u'template': u'resume/sections/{}.html'.format(
+                    block.type),
+                u'model': block
+            }
+        # for section in SECTIONS:
+        #     if not hasattr(self, section):
+        #         continue
+        #
+        #     attr = getattr(self, section)
+        #
+        #     if issubclass(QuerySet, attr.__class__):
+        #         include = attr.count() > 0
+        #     else:
+        #         include = attr is not None
+        #
+        #     if not include:
+        #         continue
+        #
+        #     yield u'resume/includes/{}.html'.format(
+        #         slugify(section.replace(u'_', u'-')))
 
 
 def create_initial_resume():

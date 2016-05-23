@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" type="text/css" href="{% static 'resume/css/resume.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'resume/css/creator.css' %}" />
+{% endblock stylesheets %}
+
+{% block container %}
+<form action="." method="post">
+  <main>
+
+    {% for fieldset in obj.all_fieldsets %}
+      {% include fieldset %}
+    {% endfor %}
+
+  </main>
+</form>
+
+<script type="application/javascript">
+$(document).ready(function() {
+  console.log('hello');
+});
+</script>
+
+
+{% endblock %}

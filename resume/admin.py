@@ -1,15 +1,15 @@
 from django.contrib import admin
 from .models import (
     Resume,
-    CareerGoal,
-    ContactInfo,
-    Education,
-    WorkExperience,
-    ProgrammingSkills,
+    # CareerGoal,
+    # ContactInfo,
+    # Education,
+    # WorkExperience,
+    # ProgrammingSkills,
     Line,
     ResumeCategory,
-    GenericListSection,
-    GenericListItem,
+    # GenericListSection,
+    # GenericListItem,
 )
 from django.core.urlresolvers import reverse_lazy
 from django.utils.text import mark_safe
@@ -61,12 +61,12 @@ class ResumeModelMixin(CategoryAdminMixin,
 
 
 admin.site.register(Resume, ResumeAdmin)
-admin.site.register(CareerGoal, ResumeModelMixin)
-admin.site.register(Education, ResumeModelMixin)
-admin.site.register(WorkExperience, ResumeModelMixin)
-admin.site.register(ContactInfo)
-admin.site.register(ProgrammingSkills, ResumeModelMixin)
 admin.site.register(Line)
 admin.site.register(ResumeCategory)
-admin.site.register(GenericListItem, ResumeModelMixin)
-admin.site.register(GenericListSection, ResumeModelMixin)
+# admin.site.register(CareerGoal, ResumeModelMixin)
+# admin.site.register(Education, ResumeModelMixin)
+# admin.site.register(WorkExperience, ResumeModelMixin)
+# admin.site.register(ContactInfo)
+# admin.site.register(ProgrammingSkills, ResumeModelMixin)
+# admin.site.register(GenericListItem, ResumeModelMixin)
+# admin.site.register(GenericListSection, ResumeModelMixin)

@@ -1,0 +1,29 @@
+<section class="education">
+    {% include 'svg/header-svg.html' %}
+    <header class="row">
+        <div class="col-xs-12">
+            <h1>{{ block.section_title }}</h1>
+        </div>
+    </header>
+
+    {% for education in resume.education %}
+    <article>
+        <div class="row">
+            <div class="col-xs-7 col-xs-offset-1">
+                <strong>{{ education.title }}</strong>
+                <em>{{ education.location }}</em>
+            </div>
+            <div class="col-xs-4 text-right">
+                <span>{{ education.completion_date }}</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+                <p>{{ education.description|safe }}</p>
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+
+</section>

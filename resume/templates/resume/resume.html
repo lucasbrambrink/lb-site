@@ -9,8 +9,10 @@
 <main class="{% if render_static %}render-static{% endif %}"
     {% if resume.font %}style="font-family: {{ resume.font }}"{% endif %}>
 
-    {% for section in resume.get_all_templates %}
-      {% include section %}
+    {% include 'resume/sections/contact-info.html' with obj = resume.contact %}
+
+  {% for block in resume.get_all_blocks %}
+      {% include block.template with obj = block %}
     {% endfor %}
 
 </main>
