@@ -8,6 +8,8 @@ from .models import (
     # ProgrammingSkills,
     Line,
     ResumeCategory,
+    Block,
+    BlockItem,
     # GenericListSection,
     # GenericListItem,
 )
@@ -63,6 +65,8 @@ class ResumeModelMixin(CategoryAdminMixin,
 admin.site.register(Resume, ResumeAdmin)
 admin.site.register(Line)
 admin.site.register(ResumeCategory)
+admin.site.register(Block)
+admin.site.register(BlockItem)
 # admin.site.register(CareerGoal, ResumeModelMixin)
 # admin.site.register(Education, ResumeModelMixin)
 # admin.site.register(WorkExperience, ResumeModelMixin)

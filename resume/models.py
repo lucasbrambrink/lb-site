@@ -233,22 +233,6 @@ class Resume(models.Model):
                     block.type),
                 u'model': block
             }
-        # for section in SECTIONS:
-        #     if not hasattr(self, section):
-        #         continue
-        #
-        #     attr = getattr(self, section)
-        #
-        #     if issubclass(QuerySet, attr.__class__):
-        #         include = attr.count() > 0
-        #     else:
-        #         include = attr is not None
-        #
-        #     if not include:
-        #         continue
-        #
-        #     yield u'resume/includes/{}.html'.format(
-        #         slugify(section.replace(u'_', u'-')))
 
 
 def create_initial_resume():

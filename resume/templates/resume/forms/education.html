@@ -1,28 +1,29 @@
 <fieldset name="education">
   <section class="education">
-    {% include 'svg/header-svg.html' %}
     <header class="row">
         <div class="col-xs-12">
-            <h1><input type="text" name="section-title" placeholder="Section Title"/></h1>
+            <h1><input type="text" name="section-title" placeholder="Education"/></h1>
         </div>
     </header>
 
-    <article>
+    <article class="dynamic-section">
         <div class="row">
             <div class="col-xs-7 col-xs-offset-1">
                 <strong><input type="text" name="title" placeholder="Title"/></strong>
                 <em><input type="text" name="location" placeholder="Location"/></em>
             </div>
             <div class="col-xs-4 text-right">
-                <span><input type="text" name="completion-date" placeholder="Completion Date"/></span>
+                <span><input type="text" class="text-right" name="completion-date" placeholder="Completion Date"/></span>
             </div>
         </div>
 
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2">
-                <p><input type="text" name="description" placeholder="Description"/></p>
+                <p><textarea type="text" name="description" placeholder="Description of degree attained, GPA, and or statements regarding relavant course work. Multiple lines may be used."></textarea>
+                </p>
             </div>
         </div>
     </article>
+    {% include 'svg/header-svg.html' with class="add-section" %}
   </section>
 </fieldset>

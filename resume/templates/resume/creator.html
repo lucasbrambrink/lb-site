@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 {% block stylesheets %}
+  {{ block.super }}
   <link rel="stylesheet" type="text/css" href="{% static 'resume/css/resume.css' %}" />
   <link rel="stylesheet" type="text/css" href="{% static 'resume/css/creator.css' %}" />
 {% endblock stylesheets %}
@@ -17,11 +18,12 @@
   </main>
 </form>
 
-<script type="application/javascript">
-$(document).ready(function() {
-  console.log('hello');
-});
-</script>
-
 
 {% endblock %}
+
+
+{% block javascript %}
+{{ block.super }}
+ <script type="application/javascript" src="{% static 'resume/js/creator.js' %}" ></script>
+
+{% endblock %}}

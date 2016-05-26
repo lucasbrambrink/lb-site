@@ -1,20 +1,20 @@
-<section class="work-experience">
-    {% include 'svg/header-svg.html' %}
+<fieldset>
+  <section class="work-experience">
   <header class="row">
     <div class="col-xs-12">
-      <h1><input type="text" name="section-title" placeholder="Section Title"/></h1>
+      <h1><input type="text" name="section-title" placeholder="Work experience"/></h1>
     </div>
   </header>
 
-  <article>
+  <article class="dynamic-section">
     <header>
       <div class="row">
         <div class="col-xs-8">
-          <h2><input type="text" name="title" placeholder="Title"/></h2>
-          <h4 class="work-address"><input type="text" name="location" placeholder="Address"/></h4>
+          <h2><input type="text" name="title" placeholder="Employer name"/></h2>
+          <h4 class="work-address"><input type="text" name="location" placeholder="Location (eg. Chicago, IL)"/></h4>
         </div>
         <div class="col-xs-4 text-right">
-          <p><input type="text" name="dates" placeholder="Dates"/></p>
+          <p><input type="text" class="text-right" name="dates" placeholder="Dates"/></p>
         </div>
       </div>
     </header>
@@ -22,17 +22,22 @@
     <section>
       <header>
         <div class="row">
-          <div class="col-xs-12">
-            <h4><input type="text" name="role" placeholder="Role"/>:
-            <input type="text" name="skills" placeholder="Skills"/></h4>
+          <div class="col-xs-12 inline-group">
+            <h4><input type="text" name="role" placeholder="Role (eg. Director, Operations):"/>
+            <input type="text" name="skills" placeholder="Skills (eg. Explosions, excel, writing"/></h4>
           </div>
         </div>
       </header>
       <footer>
         <ul>
-           <li><input type="text" name="line" placeholder="Line"/></li>
+           <li><input type="text" name="line" placeholder="A line describing specifically in what way the activities performed created relevant experiences."/>
+           </li>
+          <li>{% include 'svg/header-svg.html' %}</li>
         </ul>
       </footer>
     </section>
   </article>
 </section>
+{% include 'svg/header-svg.html' with class="test" %}
+
+</fieldset>
